@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Messenger</title>
+  <style>
+    :root { color-scheme: light dark; font: 14px system-ui, sans-serif; }
+    body { display: flex; flex-direction: column; height: 100dvh; margin: 0; }
+    header { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px; }
+    header strong { margin-inline-end: auto; }
+    #inbox { flex: 1; width: 100%; border: 0; }
+    body:has(#collapse[aria-expanded="false"]) #inbox { visibility: hidden; }
+    #status { margin: 8px; }
+    #image-preview { max-width: calc(100% - 32px); }
+    #image-preview img:not([hidden]) { display: block; max-width: 100%; max-height: 75dvh; margin: 8px auto 0; object-fit: contain; }
+    #image-preview:has(#attachment:not([hidden])) { width: calc(100% - 32px); }
+    #attachment { width: 100%; height: 75dvh; margin-top: 8px; border: 0; }
+  </style>
+  <script src="panel.js" defer></script>
+</head>
+<body>
+  <header>
+    <strong>Messenger</strong>
+    <button type="button" id="sign-in">Sign in on current tab</button>
+    <button type="button" id="reload">Reload</button>
+    <button type="button" id="collapse" aria-controls="inbox" aria-expanded="true">Collapse</button>
+  </header>
+  <p id="status" role="status">Opening Messenger…</p>
+  <iframe id="inbox" title="Messenger inbox" sandbox="allow-forms allow-same-origin allow-scripts" hidden></iframe>
+  <dialog id="image-preview" aria-label="Shared media preview">
+    <form method="dialog"><button type="submit">Close preview</button></form>
+    <img alt="Shared image" referrerpolicy="no-referrer" hidden>
+    <iframe id="attachment" title="Messenger attachment" sandbox="allow-same-origin allow-scripts" hidden></iframe>
+    <p id="image-error" role="status" hidden>Couldn't load this image.</p>
+  </dialog>
+</body>
+</html>

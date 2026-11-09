@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Messenger Sidebar",
+  "version": "1.6.0",
+  "description": "Open Facebook Messages in the browser side panel.",
+  "minimum_chrome_version": "145",
+  "permissions": ["sidePanel", "declarativeNetRequestWithHostAccess"],
+  "host_permissions": ["https://www.facebook.com/*"],
+  "action": {
+    "default_title": "Open Messenger"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "panel.html"
+  },
+  "content_scripts": [{
+    "matches": ["https://www.facebook.com/messages/*"],
+    "js": ["chat-links.js"],
+    "all_frames": true,
+    "run_at": "document_start"
+  }],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; frame-src https://www.facebook.com"
+  }
+}
