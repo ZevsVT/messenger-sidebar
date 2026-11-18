@@ -8,11 +8,13 @@ Click the toolbar icon to open Facebook Messages in Chrome's native side panel. 
 2. Turn on **Developer mode**, select **Load unpacked**, and choose the folder containing `manifest.json`.
 3. Pin **Messenger Sidebar** from the browser's Extensions menu and click its icon.
 
-Already installed? Click **Reload** on the extension's card at `chrome://extensions` and allow access to `www.facebook.com` if prompted. Then click the toolbar icon.
+Already installed? Click **Reload** on the extension's card at `chrome://extensions` and allow access to `www.facebook.com` and `web.facebook.com` if prompted. Then click the toolbar icon.
 
 ## Using Messenger
 
-The panel uses your existing Facebook session. If you need to sign in, click **Sign in on current tab**, sign in on Facebook, and then click **Reload** in the sidebar.
+The panel uses your existing Facebook session and follows Facebook's redirects between `www.facebook.com` and `web.facebook.com`. If the inbox can't load in the sidebar, click **Open in tab**. If Facebook asks you to sign in, sign in there and then click **Reload** in the sidebar.
+
+After a successful load, the panel remembers the working Facebook host to avoid repeating the regional redirect. Reloading an open panel reuses its network rule.
 
 Click **Collapse** to hide the chat while it keeps running, then click **Expand** to return to the same conversation. Chrome keeps the side panel at its current width. You can drag the divider to make it narrower. Using Chrome's own close button unloads the chat.
 

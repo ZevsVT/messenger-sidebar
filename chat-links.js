@@ -1,5 +1,6 @@
 const extensionOrigin = `chrome-extension://${chrome.runtime.id}`;
 if (location.ancestorOrigins[0] === extensionOrigin) {
+  const facebookOrigins = ["https://www.facebook.com", "https://web.facebook.com"];
   let panelId;
   window.addEventListener("message", (event) => {
     if (event.origin === extensionOrigin && event.source === window.parent && event.data?.type === "messenger-panel-id") {
@@ -23,7 +24,7 @@ if (location.ancestorOrigins[0] === extensionOrigin) {
     const imageUrl = isMetaRedirect
       ? URL.parse(url.searchParams.get("u") ?? "")
       : url;
-    const isAttachment = imageUrl?.origin === location.origin && /^\/messenger_media\/?$/.test(imageUrl.pathname);
+    const isAttachment = facebookOrigins.includes(imageUrl?.origin) && /^\/messenger_media\/?$/.test(imageUrl.pathname);
     const thumbnail = link.querySelector("img");
     const thumbnailUrl = URL.parse(thumbnail?.currentSrc || thumbnail?.src || "");
     const isPicture = imageUrl && ["http:", "https:"].includes(imageUrl.protocol) && (
@@ -33,7 +34,7 @@ if (location.ancestorOrigins[0] === extensionOrigin) {
     // Let Messenger handle photos in its viewer before previewing a plain image link.
     if ((!isAttachment && Boolean(isPicture)) !== previewPhase) return;
 
-    const isInboxLink = url.origin === location.origin && url.pathname.startsWith("/messages/");
+    const isInboxLink = facebookOrigins.includes(url.origin) && url.pathname.startsWith("/messages/");
     const background = event.button === 1 || event.ctrlKey || event.metaKey;
     const opensPreview = isAttachment || isPicture;
     if (!opensPreview && isInboxLink && link.target.toLowerCase() !== "_blank" && !background) return;

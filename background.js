@@ -1,7 +1,7 @@
 chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch(console.error);
 
 chrome.runtime.onMessage.addListener((message, sender) => {
-  if (message?.type !== "open-chat-link" || !sender.url?.startsWith("https://www.facebook.com/messages/")) return;
+  if (message?.type !== "open-chat-link" || !/^https:\/\/(www|web)\.facebook\.com\/messages\//.test(sender.url)) return;
 
   const url = typeof message.url === "string" ? URL.parse(message.url) : null;
   if (url?.protocol !== "https:" && url?.protocol !== "http:") return;
